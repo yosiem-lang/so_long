@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 13:32:51 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/28 11:13:56 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/29 13:49:34 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,6 @@
 # define ERROR_NO_VALID_PATH 31
 # define ERROR_MALLOC_FAIL 99
 
-# define WALL_XPM			"textures/wall.xpm"
-# define FLOOR_XPM			"textures/empty.xpm"
-# define ITEMS_XPM			"textures/collectible.xpm"
-# define PLAYER_FRONT_XPM	"textures/player.xpm"
-# define PLAYER_LEFT_XPM	"textures/player.xpm"
-# define PLAYER_RIGHT_XPM	"textures/player.xpm"
-# define PLAYER_BACK_XPM	"textures/player.xpm"
-# define OPEN_EXIT_XPM		"textures/exit.xpm"
-# define EXIT_CLOSED_XPM	"textures/exit.xpm"
-
 typedef struct s_map
 {
 	char	**grid;
@@ -87,23 +77,60 @@ typedef struct s_game
 
 typedef struct s_node
 {
-	int             x;
-	int             y;
-	struct s_node   *next;
-}   t_node;
+	int				x;
+	int				y;
+	struct s_node	*next;
+}					t_node;
 
+typedef struct s_bfs
+{
+	t_map	*map;
+	char	**grid;
+	int		width;
+	int		height;
+	int		collected;
+	int		exit_found;
+	t_node	*queue;
+	int		dx[4];
+	int		dy[4];
+}			t_bfs;
+
+
+/* error */
 void	output_error_and_exit(int sign);
+
+/* map read & validation */
+void	init_map_info(t_map *map);
+void	validate_line_chars(t_map *map, char *line, int len);
+//void	process_line_dimensions(t_map *map, char *line, int len);
+void	count_map_dimensions(const char *path, t_map *map);
+char	**read_map_to_grid(const char *path, t_map *map);
+void	validate_map_structure(t_map *map);
+void	validate_map_path(t_map *map);
 char	**read_and_validate_map(const char *map_path, t_map *map_info);
+
+/* memory */
 void	free_map(char **map);
+char	**copy_grid(char **grid, int height);
+void	free_grid_copy(char **grid, int height);
+
+/* rendering */
 int		draw_map(t_game *game);
 void	put_tile_to_window(t_game *game, int x, int y, char tile_type);
 void	render_tile(t_game *game, int x, int y, char tile_type);
+
+/* input */
 int		key_hook(int keycode, t_game *game);
 int		close_window(t_game *game);
 void	move_player(t_game *game, int new_x, int new_y);
+
+/* pathfinding */
 int		has_valid_path(t_map *map);
+
+/* textures */
 void	load_textures(t_game *game);
-char	**copy_grid(char **grid, int height);
-void	free_grid_copy(char **grid, int height);
+
+void	enqueue(t_node **queue, int x, int y);
+t_node	*dequeue(t_node **queue);
 
 #endif

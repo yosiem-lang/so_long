@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:07:30 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 10:12:27 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/29 11:09:06 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,17 @@ int	main(int argc, char **argv)
 	mlx_hook(game->win, Expose, ExposureMask, draw_map, game);
 	mlx_loop(game->mlx);
 	return (0);
+}
+
+void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
 }

@@ -6,7 +6,7 @@
 #    By: oshie <oshie@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/06 12:01:04 by oshie             #+#    #+#              #
-#    Updated: 2025/09/06 12:01:09 by oshie            ###   ########.fr        #
+#    Updated: 2025/09/29 13:56:32 by oshie            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,10 @@ INCLUDES = -I. -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(FT_PRINTF_DIR) -I./get_next_line
 
 SRCS = so_long.c \
        read_map.c \
+	   read_map_grid.c \
+	   validate_map.c \
        map_check.c \
+	   map_check_path.c \
        output_error.c \
        output_map.c \
        game_logic.c
@@ -60,4 +63,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
