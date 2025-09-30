@@ -6,26 +6,24 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 13:32:51 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 13:49:34 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 14:29:47 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include <unistd.h>
-# include <stdlib.h>
 # include <fcntl.h>
-# include <string.h>
-# include "get_next_line/get_next_line.h"
-# include "mlx/mlx.h"
+# include <stdint.h>
+# include "minilibx-linux/mlx.h"
 # include <X11/X.h>
-# include <X11/keysym.h>
-# include "ft_printf/ft_printf.h"
-# include <limits.h>    // PATH_MAX
-# include <stdio.h>     // snprintf
+# include "libft/libft.h"
 
 # define TILE_SIZE 64
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
 # define KEY_ESC 65307
 # define KEY_W 119
@@ -65,15 +63,12 @@ typedef struct s_game
 	void	*img_wall;
 	void	*img_floor;
 	void	*img_items;
-	void	*img_opened_exit;
-	void	*img_closed_exit;
-	void	*img_player_front;
-	void	*img_player_left;
-	void	*img_player_right;
-	void	*img_player_back;
+	void	*img_exit;
+	void	*img_player;
 	t_map	map;
 	int		moves;
 }			t_game;
+
 
 typedef struct s_node
 {
@@ -96,13 +91,18 @@ typedef struct s_bfs
 }			t_bfs;
 
 
+char	get_char(int fd);
+void	*ft_memcpy(void *dest, const void *src, size_t len);
+char	*re_malloc(char *str, size_t i, char c);
+char	*put_char(char *str, size_t *i, char c);
+char	*read_next_line(int fd);
+
 /* error */
 void	output_error_and_exit(int sign);
 
 /* map read & validation */
 void	init_map_info(t_map *map);
 void	validate_line_chars(t_map *map, char *line, int len);
-//void	process_line_dimensions(t_map *map, char *line, int len);
 void	count_map_dimensions(const char *path, t_map *map);
 char	**read_map_to_grid(const char *path, t_map *map);
 void	validate_map_structure(t_map *map);
@@ -129,6 +129,8 @@ int		has_valid_path(t_map *map);
 
 /* textures */
 void	load_textures(t_game *game);
+void	load_colors(t_game *game);
+void	*create_tile_image(void *mlx, int size, int color);
 
 void	enqueue(t_node **queue, int x, int y);
 t_node	*dequeue(t_node **queue);

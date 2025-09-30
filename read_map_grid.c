@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:14:24 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 13:48:38 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 12:05:18 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ char	**read_map_to_grid(const char *path, t_map *map)
 	grid = (char **)malloc(sizeof(char *) * (map->height + 1));
 	if (!grid)
 		output_error_and_exit(ERROR_MALLOC_FAIL);
-	line = get_next_line(fd);
+	line = read_next_line(fd);
 	while (i < map->height)
 	{
 		if (!line)
 			output_error_and_exit(ERROR_FILE_ACCESS);
 		copy_line_to_grid(grid, i++, line);
-		line = get_next_line(fd);
+		line = read_next_line(fd);
 	}
 	grid[i] = NULL;
 	close(fd);

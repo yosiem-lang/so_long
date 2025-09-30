@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:15:04 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 11:24:03 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 14:27:58 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	validate_map_structure(t_map *map)
 	{
 		if (map->grid[j][0] != '1' || map->grid[j][map->width - 1] != '1')
 			output_error_and_exit(ERROR_NOT_ENCLOSED);
-		if (strchr(map->grid[j], 'E'))
+		if (ft_strchr(map->grid[j], 'E'))
 			exit_count++;
 		j++;
 	}

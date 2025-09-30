@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 18:00:57 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 11:20:48 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 14:27:43 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,16 @@ void	count_map_dimensions(const char *path, t_map *map)
 	if (fd < 0)
 		output_error_and_exit(ERROR_FILE_ACCESS);
 	init_map_info(map);
-	line = get_next_line(fd);
+	line = read_next_line(fd);
 	while (line)
 	{
-		len = strlen(line);
+		len = ft_strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 			len--;
 		if (len > 0)
 			process_line_dimensions(map, line, len);
 		free(line);
-		line = get_next_line(fd);
+		line = read_next_line(fd);
 	}
 	close(fd);
 	if (map->height == 0)

@@ -6,45 +6,32 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 18:31:33 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 13:32:53 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 11:41:24 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-static void	*load_texture(void *mlx, const char *rel_path, int *w, int *h)
-{
-	void	*img;
-
-	img = mlx_xpm_file_to_image(mlx, (char *)rel_path, w, h);
-	if (!img)
-		output_error_and_exit(ERROR_FILE_ACCESS);
-	return (img);
-}
 
 void	load_textures(t_game *game)
 {
 	int	w;
 	int	h;
 
-	game->img_wall = load_texture(game->mlx, "textures/wall.xpm", &w, &h);
-	game->img_floor = load_texture(game->mlx, "textures/empty.xpm", &w, &h);
-	game->img_items = load_texture(game->mlx,
+	game->img_wall = mlx_xpm_file_to_image(game->mlx,
+			"textures/wall.xpm", &w, &h);
+	game->img_floor = mlx_xpm_file_to_image(game->mlx,
+			"textures/empty.xpm", &w, &h);
+	game->img_items = mlx_xpm_file_to_image(game->mlx,
 			"textures/collectible.xpm", &w, &h);
-	game->img_closed_exit = load_texture(game->mlx,
+	game->img_exit = mlx_xpm_file_to_image(game->mlx,
 			"textures/exit.xpm", &w, &h);
-	game->img_opened_exit = game->img_closed_exit;
-	game->img_player_front = load_texture(game->mlx,
+	game->img_player = mlx_xpm_file_to_image(game->mlx,
 			"textures/player.xpm", &w, &h);
-	game->img_player_left = game->img_player_front;
-	game->img_player_right = game->img_player_front;
-	game->img_player_back = game->img_player_front;
 	if (!game->img_wall || !game->img_floor || !game->img_items
-		|| !game->img_closed_exit || !game->img_player_front)
-	{
+		|| !game->img_exit || !game->img_player)
 		output_error_and_exit(ERROR_FILE_ACCESS);
-	}
 }
+
 
 void	put_tile_to_window(t_game *game, int x, int y, char tile_type)
 {
@@ -56,19 +43,14 @@ void	put_tile_to_window(t_game *game, int x, int y, char tile_type)
 			game->img_floor, x * TILE_SIZE, y * TILE_SIZE);
 	else if (tile_type == 'P')
 		mlx_put_image_to_window(game->mlx, game->win,
-			game->img_player_front, x * TILE_SIZE, y * TILE_SIZE);
+			game->img_player, x * TILE_SIZE, y * TILE_SIZE);
 	else if (tile_type == 'C')
 		mlx_put_image_to_window(game->mlx, game->win,
 			game->img_items, x * TILE_SIZE, y * TILE_SIZE);
 	else if (tile_type == 'E')
-	{
-		if (game->map.collectible_count == 0)
-			mlx_put_image_to_window(game->mlx, game->win,
-				game->img_opened_exit, x * TILE_SIZE, y * TILE_SIZE);
-		else
-			mlx_put_image_to_window(game->mlx, game->win,
-				game->img_closed_exit, x * TILE_SIZE, y * TILE_SIZE);
-	}
+		mlx_put_image_to_window(game->mlx, game->win,
+			game->img_exit, x * TILE_SIZE, y * TILE_SIZE);
+
 }
 
 int	draw_map(t_game *game)
@@ -76,6 +58,7 @@ int	draw_map(t_game *game)
 	int	y;
 	int	x;
 
+	mlx_clear_window(game->mlx, game->win);
 	y = 0;
 	while (y < game->map.height)
 	{

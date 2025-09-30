@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 18:32:12 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 13:46:18 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 12:04:48 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ static int	handle_exit(t_game *game, int x, int y)
 		if (game->map.collectible_count == 0)
 		{
 			game->moves++;
-			ft_printf("Moves: %d\n", game->moves);
+			ft_putstr_fd("Moves: ", 1);
+			ft_putnbr_fd(game->moves, 1);
+			ft_putchar_fd('\n', 1);
 			close_window(game);
 		}
 		return (1);
@@ -51,7 +53,9 @@ void	move_player(t_game *game, int new_x, int new_y)
 	game->map.player_y = new_y;
 	game->moves++;
 	draw_map(game);
-	ft_printf("Moves: %d\n", game->moves);
+	ft_putstr_fd("Moves: ", 1);
+	ft_putnbr_fd(game->moves, 1);
+	ft_putchar_fd('\n', 1);
 }
 
 int	key_hook(int keycode, t_game *game)

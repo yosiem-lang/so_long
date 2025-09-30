@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 20:48:10 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 13:52:08 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 14:27:39 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	**copy_grid(char **grid, int height)
 	i = 0;
 	while (i < height)
 	{
-		copy[i] = malloc(strlen(grid[i]) + 1);
+		copy[i] = malloc(ft_strlen(grid[i]) + 1);
 		if (!copy[i])
 		{
 			while (i > 0)
