@@ -6,9 +6,10 @@
 #    By: oshie <oshie@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/06 12:01:04 by oshie             #+#    #+#              #
-#    Updated: 2025/09/30 14:24:13 by oshie            ###   ########.fr        #
+#    Updated: 2025/09/30 22:49:52 by oshie            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME = so_long
 
@@ -38,7 +39,7 @@ OBJS = $(addprefix $(OBJS_DIR)/,$(notdir $(SRCS:.c=.o)))
 all: $(NAME)
 
 $(NAME): $(LIBFT_DIR)/libft.a $(OBJS_DIR) $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) $(LIBFT_DIR)/libft.a $(MLX_FLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(LIBFT_DIR)/libft.a $(MLX_FLAGS)
 
 $(OBJS_DIR):
 	mkdir -p $(OBJS_DIR)

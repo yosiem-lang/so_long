@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 13:32:51 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 14:29:47 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 22:59:56 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdint.h>
 # include "minilibx-linux/mlx.h"
 # include <X11/X.h>
+# include <X11/keysym.h>
 # include "libft/libft.h"
 
 # define TILE_SIZE 64

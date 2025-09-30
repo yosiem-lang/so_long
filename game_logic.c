@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 18:32:12 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 12:04:48 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 22:59:49 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	handle_exit(t_game *game, int x, int y)
 	}
 	return (0);
 }
-
 
 void	move_player(t_game *game, int new_x, int new_y)
 {
@@ -75,6 +74,16 @@ int	key_hook(int keycode, t_game *game)
 
 int	close_window(t_game *game)
 {
+	if (game->img_wall)
+		mlx_destroy_image(game->mlx, game->img_wall);
+	if (game->img_floor)
+		mlx_destroy_image(game->mlx, game->img_floor);
+	if (game->img_items)
+		mlx_destroy_image(game->mlx, game->img_items);
+	if (game->img_exit)
+		mlx_destroy_image(game->mlx, game->img_exit);
+	if (game->img_player)
+		mlx_destroy_image(game->mlx, game->img_player);
 	if (!game)
 		exit(0);
 	if (game->win && game->mlx)

@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 18:00:57 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 14:27:43 by oshie            ###   ########.fr       */
+/*   Updated: 2025/09/30 23:03:41 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	count_map_dimensions(const char *path, t_map *map)
 		free(line);
 		line = read_next_line(fd);
 	}
+	free(line);
 	close(fd);
 	if (map->height == 0)
 		output_error_and_exit(ERROR_NOT_RECTANGULAR);
