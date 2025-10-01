@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map_grid.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:14:24 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 23:31:38 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/01 15:58:33 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	copy_line_to_grid(char **grid, int i, char *line)
 	grid[i] = line;
 }
 
-char	**read_map_to_grid(const char *path, t_map *map)
+char	**read_map_to_grid(const char *path, t_map *map, t_game *game)
 {
 	int		fd;
 	char	**grid;
@@ -32,17 +32,18 @@ char	**read_map_to_grid(const char *path, t_map *map)
 	i = 0;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		output_error_and_exit(ERROR_FILE_ACCESS);
+		output_error_and_exit(ERROR_FILE_ACCESS, game);
 	grid = (char **)malloc(sizeof(char *) * (map->height + 1));
 	if (!grid)
-		output_error_and_exit(ERROR_MALLOC_FAIL);
+		output_error_and_exit(ERROR_MALLOC_FAIL, game);
 	line = read_next_line(fd);
 	while (i < map->height)
 	{
 		if (!line)
-			output_error_and_exit(ERROR_FILE_ACCESS);
+			output_error_and_exit(ERROR_FILE_ACCESS, game);
 		copy_line_to_grid(grid, i++, line);
 		line = read_next_line(fd);
+		free (line);
 	}
 	grid[i] = NULL;
 	close(fd);

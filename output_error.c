@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   output_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:33:47 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 13:32:56 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/01 16:14:47 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	output_error_and_exit(int sign)
+void	free_all(t_game *game)
+{
+	if (!game)
+		free(game);
+}
+
+void	output_error_and_exit(int sign, t_game *game)
 {
 	ft_putstr_fd("Error\n", 1);
 	if (sign == ERROR_FILE_ACCESS)
@@ -37,5 +43,6 @@ void	output_error_and_exit(int sign)
 		ft_putstr_fd("Memory allocation failed.\n", 1);
 	else
 		ft_putstr_fd("An unknown error occurred.\n", 1);
+	free_all(game);
 	exit(1);
 }

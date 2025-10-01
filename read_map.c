@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 18:00:57 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 23:03:41 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/01 16:07:33 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_map_info(t_map *map)
 	map->collectible_count = 0;
 }
 
-void	validate_line_chars(t_map *map, char *line, int len)
+void	validate_line_chars(t_map *map, char *line, int len, t_game *game)
 {
 	int	i;
 
@@ -31,32 +31,32 @@ void	validate_line_chars(t_map *map, char *line, int len)
 		if (line[i] == 'P')
 		{
 			if (map->player_x != -1)
-				output_error_and_exit(ERROR_MISSING_PLAYER);
+				output_error_and_exit(ERROR_MISSING_PLAYER, game);
 			map->player_x = i;
 			map->player_y = map->height;
 		}
 		else if (line[i] == 'C')
 			map->collectible_count++;
 		else if (line[i] != '0' && line[i] != '1' && line[i] != 'E')
-			output_error_and_exit(ERROR_INVALID_CHAR);
+			output_error_and_exit(ERROR_INVALID_CHAR, game);
 		i++;
 	}
 }
 
-static void	process_line_dimensions(t_map *map, char *line, int len)
+static void	process_line_dimensions(t_map *map, char *line, int len, t_game *game)
 {
 	if (map->width == 0)
 		map->width = len;
 	if (len != map->width)
 	{
 		free(line);
-		output_error_and_exit(ERROR_NOT_RECTANGULAR);
+		output_error_and_exit(ERROR_NOT_RECTANGULAR, game);
 	}
-	validate_line_chars(map, line, len);
+	validate_line_chars(map, line, len, game);
 	map->height++;
 }
 
-void	count_map_dimensions(const char *path, t_map *map)
+void	count_map_dimensions(const char *path, t_map *map, t_game *game)
 {
 	int		fd;
 	char	*line;
@@ -64,7 +64,7 @@ void	count_map_dimensions(const char *path, t_map *map)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		output_error_and_exit(ERROR_FILE_ACCESS);
+		output_error_and_exit(ERROR_FILE_ACCESS, game);
 	init_map_info(map);
 	line = read_next_line(fd);
 	while (line)
@@ -73,12 +73,12 @@ void	count_map_dimensions(const char *path, t_map *map)
 		if (len > 0 && line[len - 1] == '\n')
 			len--;
 		if (len > 0)
-			process_line_dimensions(map, line, len);
+			process_line_dimensions(map, line, len, game);
 		free(line);
 		line = read_next_line(fd);
 	}
 	free(line);
 	close(fd);
 	if (map->height == 0)
-		output_error_and_exit(ERROR_NOT_RECTANGULAR);
+		output_error_and_exit(ERROR_NOT_RECTANGULAR, game);
 }

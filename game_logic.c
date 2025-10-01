@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game_logic.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 18:32:12 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 22:59:49 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/01 15:29:43 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	key_hook(int keycode, t_game *game)
 
 int	close_window(t_game *game)
 {
+	if (game->win && game->mlx)
+		mlx_destroy_window(game->mlx, game->win);
 	if (game->img_wall)
 		mlx_destroy_image(game->mlx, game->img_wall);
 	if (game->img_floor)
@@ -86,10 +88,11 @@ int	close_window(t_game *game)
 		mlx_destroy_image(game->mlx, game->img_player);
 	if (!game)
 		exit(0);
-	if (game->win && game->mlx)
-		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)
+	{
 		mlx_destroy_display(game->mlx);
+		free (game->mlx);
+	}
 	if (game->map.grid)
 		free_map(game->map.grid);
 	free(game);

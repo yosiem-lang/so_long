@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 18:31:33 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 11:41:24 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/01 15:56:23 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	load_textures(t_game *game)
 			"textures/player.xpm", &w, &h);
 	if (!game->img_wall || !game->img_floor || !game->img_items
 		|| !game->img_exit || !game->img_player)
-		output_error_and_exit(ERROR_FILE_ACCESS);
+		output_error_and_exit(ERROR_FILE_ACCESS, game);
 }
 
 

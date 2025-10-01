@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:07:30 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 11:09:06 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/01 16:11:38 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	validate_map_file_extension(const char *path)
+void	validate_map_file_extension(const char *path, t_game *game)
 {
 	size_t	len;
 
 	len = ft_strlen(path);
 	if (len < 4 || ft_strncmp(path + len - 4, ".ber", 4) != 0)
-		output_error_and_exit(ERROR_INVALID_EXTENSION);
+		output_error_and_exit(ERROR_INVALID_EXTENSION, game);
 }
 
 static t_game	*init_game(void)
@@ -27,7 +27,7 @@ static t_game	*init_game(void)
 
 	game = (t_game *)malloc(sizeof(t_game));
 	if (!game)
-		output_error_and_exit(ERROR_MALLOC_FAIL);
+		output_error_and_exit(ERROR_MALLOC_FAIL, game);
 	ft_memset(game, 0, sizeof(t_game));
 	return (game);
 }
@@ -44,14 +44,14 @@ static void	init_mlx_window(t_game *game)
 	{
 		free_map(game->map.grid);
 		free(game);
-		output_error_and_exit(ERROR_MALLOC_FAIL);
+		output_error_and_exit(ERROR_MALLOC_FAIL, game);
 	}
 	game->win = mlx_new_window(game->mlx, win_width, win_height, "So Long");
 	if (!game->win)
 	{
 		free_map(game->map.grid);
 		free(game);
-		output_error_and_exit(ERROR_MALLOC_FAIL);
+		output_error_and_exit(ERROR_MALLOC_FAIL, game);
 	}
 }
 
@@ -59,13 +59,14 @@ int	main(int argc, char **argv)
 {
 	t_game	*game;
 
+	game = (NULL);
 	if (argc != 2)
-		output_error_and_exit(ERROR_INVALID_EXTENSION);
-	validate_map_file_extension(argv[1]);
+		output_error_and_exit(ERROR_INVALID_EXTENSION, game);
+	validate_map_file_extension(argv[1], game);
 	game = init_game();
-	game->map.grid = read_and_validate_map(argv[1], &game->map);
+	game->map.grid = read_and_validate_map(argv[1], &game->map, game);
 	if (!game->map.grid)
-		output_error_and_exit(ERROR_FILE_ACCESS);
+		output_error_and_exit(ERROR_FILE_ACCESS, game);
 	init_mlx_window(game);
 	game->moves = 0;
 	load_textures(game);
