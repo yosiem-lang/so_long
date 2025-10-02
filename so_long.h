@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 13:32:51 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/01 16:15:17 by yomatsud         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:05:55 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*put_char(char *str, size_t *i, char c);
 char	*read_next_line(int fd);
 
 /* error */
-void	output_error_and_exit(int sign, t_game *game);
+void	output_error_and_exit(int sign, t_game *game, int fd);
 
 /* map read & validation */
 void	init_map_info(t_map *map);
@@ -109,7 +109,7 @@ char	**read_map_to_grid(const char *path, t_map *map, t_game *game);
 void	validate_map_structure(t_map *map, t_game *game);
 void	validate_map_path(t_map *map, t_game *game);
 char	**read_and_validate_map(const char *map_path,
-		t_map *map_info, t_game *game);
+			t_map *map_info, t_game *game);
 
 /* memory */
 void	free_map(char **map);
@@ -137,6 +137,6 @@ void	*create_tile_image(void *mlx, int size, int color);
 void	enqueue(t_node **queue, int x, int y);
 t_node	*dequeue(t_node **queue);
 
-void	free_all(t_game *game);
+void	free_and_close_all(t_game *game, int fd);
 
 #endif

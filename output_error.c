@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   output_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:33:47 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/01 16:14:47 by yomatsud         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:10:57 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	free_all(t_game *game)
+void	cleanup_resources(t_game *game, int check)
 {
-	if (!game)
+	if (game && game->map.grid)
+		free_map(game->map.grid);
+	if (check != 1)
+		close(check);
+	if (game)
 		free(game);
 }
 
-void	output_error_and_exit(int sign, t_game *game)
+void	output_error_and_exit(int sign, t_game *game, int check)
 {
+	cleanup_resources(game, check);
 	ft_putstr_fd("Error\n", 1);
 	if (sign == ERROR_FILE_ACCESS)
 		ft_putstr_fd("File does not exist or cannot be read.\n", 1);
@@ -43,6 +48,5 @@ void	output_error_and_exit(int sign, t_game *game)
 		ft_putstr_fd("Memory allocation failed.\n", 1);
 	else
 		ft_putstr_fd("An unknown error occurred.\n", 1);
-	free_all(game);
 	exit(1);
 }

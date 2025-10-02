@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 18:31:33 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/01 15:56:23 by yomatsud         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:07:33 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void	load_textures(t_game *game)
 			"textures/player.xpm", &w, &h);
 	if (!game->img_wall || !game->img_floor || !game->img_items
 		|| !game->img_exit || !game->img_player)
-		output_error_and_exit(ERROR_FILE_ACCESS, game);
+		output_error_and_exit(ERROR_FILE_ACCESS, game, 1);
 }
-
 
 void	put_tile_to_window(t_game *game, int x, int y, char tile_type)
 {
@@ -50,7 +49,6 @@ void	put_tile_to_window(t_game *game, int x, int y, char tile_type)
 	else if (tile_type == 'E')
 		mlx_put_image_to_window(game->mlx, game->win,
 			game->img_exit, x * TILE_SIZE, y * TILE_SIZE);
-
 }
 
 int	draw_map(t_game *game)
