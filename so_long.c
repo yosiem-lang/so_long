@@ -6,19 +6,19 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:07:30 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/02 15:06:31 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/02 15:38:57 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	validate_map_file_extension(const char *path, t_game *game)
+void	validate_map_file_extension(const char *path)
 {
 	size_t	len;
 
 	len = ft_strlen(path);
 	if (len < 4 || ft_strncmp(path + len - 4, ".ber", 4) != 0)
-		output_error_and_exit(ERROR_INVALID_EXTENSION, game, 1);
+		output_error_and_exit(ERROR_INVALID_EXTENSION, NULL, 1);
 }
 
 static t_game	*init_game(void)
@@ -28,7 +28,6 @@ static t_game	*init_game(void)
 	game = (t_game *)ft_calloc(1, sizeof(t_game));
 	if (!game)
 		output_error_and_exit(ERROR_MALLOC_FAIL, game, 1);
-	ft_memset(game, 0, sizeof(t_game));
 	return (game);
 }
 
@@ -57,10 +56,9 @@ int	main(int argc, char **argv)
 {
 	t_game	*game;
 
-	game = (NULL);
 	if (argc != 2)
-		output_error_and_exit(ERROR_INVALID_EXTENSION, game, 1);
-	validate_map_file_extension(argv[1], game);
+		output_error_and_exit(ERROR_INVALID_EXTENSION, NULL, 1);
+	validate_map_file_extension(argv[1]);
 	game = init_game();
 	ft_memset(game, 0, sizeof(t_game));
 	game->map.grid = read_and_validate_map(argv[1], &game->map, game);
