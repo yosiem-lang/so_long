@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_check_path1.c                                  :+:      :+:    :+:   */
+/*   map_check_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:40:12 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/29 13:14:43 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/04 12:28:24 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static t_bfs	init_bfs(t_map *map, char **grid)
+t_bfs	init_bfs(t_map *map, char **grid, int mode)
 {
 	t_bfs	bfs;
 
 	bfs.queue = NULL;
 	bfs.grid = grid;
 	bfs.map = map;
+	bfs.collected = 0;
+	bfs.exit_found = 0;
+	bfs.mode = mode;
 	bfs.dx[0] = 0;
 	bfs.dx[1] = 0;
 	bfs.dx[2] = 1;
@@ -28,69 +31,43 @@ static t_bfs	init_bfs(t_map *map, char **grid)
 	bfs.dy[2] = 0;
 	bfs.dy[3] = 0;
 	enqueue(&bfs.queue, map->player_x, map->player_y);
-	grid[map->player_y][map->player_x] = 'V';
+	bfs.grid[map->player_y][map->player_x] = 'V';
 	return (bfs);
 }
 
-static void	explore_node(t_bfs *bfs, t_node *cur,
-							int *collected, int *exit_found)
-{
-	int	i;
-	int	nx;
-	int	ny;
-
-	i = 0;
-	while (i < 4)
-	{
-		nx = cur->x + bfs->dx[i];
-		ny = cur->y + bfs->dy[i];
-		if (nx >= 0 && nx < bfs->map->width && ny >= 0 && ny < bfs->map->height)
-		{
-			if (bfs->grid[ny][nx] != '1' && bfs->grid[ny][nx] != 'V')
-			{
-				enqueue(&bfs->queue, nx, ny);
-				bfs->grid[ny][nx] = 'V';
-			}
-		}
-		i++;
-	}
-	if (bfs->map->grid[cur->y][cur->x] == 'C')
-		(*collected)++;
-	if (bfs->map->grid[cur->y][cur->x] == 'E')
-		*exit_found = 1;
-	free(cur);
-}
-
-static void	bfs_explore(t_map *map, char **grid,
-						int *collected, int *exit_found)
+void	bfs_explore(t_map *map, char **grid, int mode)
 {
 	t_bfs	bfs;
 	t_node	*cur;
 
-	bfs = init_bfs(map, grid);
+	bfs = init_bfs(map, grid, mode);
 	while (bfs.queue)
 	{
 		cur = dequeue(&bfs.queue);
-		explore_node(&bfs, cur, collected, exit_found);
+		explore_node(&bfs, cur);
 	}
 	while (bfs.queue)
 		free(dequeue(&bfs.queue));
+	if ((mode == 1 && bfs.collected != map->collectible_count)
+		|| (mode == 2 && !bfs.exit_found))
+		output_error_and_exit(ERROR_NO_VALID_PATH, NULL, 1);
 }
 
-int	has_valid_path(t_map *map)
+int	has_valid_path(t_map *map, t_game *game)
 {
 	char	**temp_grid;
-	int		collected;
-	int		exit_found;
-	int		result;
 
 	temp_grid = copy_grid(map->grid, map->height);
 	if (!temp_grid)
-		return (0);
-	collected = 0;
-	exit_found = 0;
-	bfs_explore(map, temp_grid, &collected, &exit_found);
-	result = (collected == map->collectible_count && exit_found);
+		output_error_and_exit(ERROR_NO_VALID_PATH, game, 1);
+	bfs_explore(map, temp_grid, 1);
 	free_grid_copy(temp_grid, map->height);
-	return (result);
+
+	temp_grid = copy_grid(map->grid, map->height);
+	if (!temp_grid)
+		output_error_and_exit(ERROR_NO_VALID_PATH, game, 1);
+	bfs_explore(map, temp_grid, 2);
+	free_grid_copy(temp_grid, map->height);
+
+	return (1);
 }

@@ -6,7 +6,7 @@
 #    By: oshie <oshie@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/06 12:01:04 by oshie             #+#    #+#              #
-#    Updated: 2025/10/02 09:33:17 by oshie            ###   ########.fr        #
+#    Updated: 2025/10/04 20:00:57 by oshie            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 MLX_DIR = ./minilibx-linux
-MLX_FLAGS = -L./minilibx-linux -lmlx_Linux -lXext -lX11 -lm
+MLX_FLAGS = -L./minilibx-linux -lmlx_Linux -lXext -lX11 -lm -lz
 LIBFT_DIR = ./libft
 INCLUDES = -I. -I$(MLX_DIR) -I$(LIBFT_DIR)
 
@@ -26,6 +26,7 @@ SRCS = so_long.c \
 	   validate_map.c \
        map_check.c \
 	   map_check_path.c \
+	   map_check_path_utils.c \
        output_error.c \
        output_map.c \
        game_logic.c \

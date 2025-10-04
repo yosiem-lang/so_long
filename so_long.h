@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 13:32:51 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/02 15:05:55 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/04 19:58:08 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,54 +89,38 @@ typedef struct s_bfs
 	t_node	*queue;
 	int		dx[4];
 	int		dy[4];
+	int		mode;
 }			t_bfs;
 
-
-char	get_char(int fd);
-void	*ft_memcpy(void *dest, const void *src, size_t len);
-char	*re_malloc(char *str, size_t i, char c);
-char	*put_char(char *str, size_t *i, char c);
-char	*read_next_line(int fd);
-
-/* error */
-void	output_error_and_exit(int sign, t_game *game, int fd);
-
-/* map read & validation */
-void	init_map_info(t_map *map);
-void	validate_line_chars(t_map *map, char *line, int len, t_game *game);
+void	output_error_and_exit(int sign, t_game *game, int check);
+void	cleanup_resources(t_game *game, int check);
+void	validate_map_file_extension(const char *path);
+char	**read_and_validate_map(const char *path, t_map *map, t_game *game);
 void	count_map_dimensions(const char *path, t_map *map, t_game *game);
+void	init_map_info(t_map *map);
+char	*read_next_line(int fd);
+char	get_char(int fd);
+char	*put_char(char *str, size_t *i, char c);
+char	*re_malloc(char *str, size_t i, char c);
+void	validate_line_chars(t_map *map, char *line, int len, t_game *game);
 char	**read_map_to_grid(const char *path, t_map *map, t_game *game);
 void	validate_map_structure(t_map *map, t_game *game);
-void	validate_map_path(t_map *map, t_game *game);
-char	**read_and_validate_map(const char *map_path,
-			t_map *map_info, t_game *game);
-
-/* memory */
-void	free_map(char **map);
+int		has_valid_path(t_map *map, t_game *game);
 char	**copy_grid(char **grid, int height);
+void	bfs_explore(t_map *map, char **grid, int mode);
+t_bfs	init_bfs(t_map *map, char **grid, int mode);
+void	enqueue(t_node **queue, int x, int y);
+t_node	*dequeue(t_node **queue);
+void	explore_node(t_bfs *bfs, t_node *cur);
+int		should_skip(t_bfs *bfs, int nx, int ny);
+void	visit_node(t_bfs *bfs, int nx, int ny);
 void	free_grid_copy(char **grid, int height);
-
-/* rendering */
+void	free_map(char **map);
+void	load_textures(t_game *game);
 int		draw_map(t_game *game);
 void	put_tile_to_window(t_game *game, int x, int y, char tile_type);
-void	render_tile(t_game *game, int x, int y, char tile_type);
-
-/* input */
 int		key_hook(int keycode, t_game *game);
 int		close_window(t_game *game);
 void	move_player(t_game *game, int new_x, int new_y);
-
-/* pathfinding */
-int		has_valid_path(t_map *map);
-
-/* textures */
-void	load_textures(t_game *game);
-void	load_colors(t_game *game);
-void	*create_tile_image(void *mlx, int size, int color);
-
-void	enqueue(t_node **queue, int x, int y);
-t_node	*dequeue(t_node **queue);
-
-void	free_and_close_all(t_game *game, int fd);
 
 #endif

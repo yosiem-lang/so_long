@@ -6,33 +6,11 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 20:48:10 by oshie             #+#    #+#             */
-/*   Updated: 2025/09/30 14:27:39 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/04 19:54:30 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-int	is_enclosed_by_walls(t_map *map)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < map->width)
-	{
-		if (map->grid[0][i] != '1' || map->grid[map->height - 1][i] != '1')
-			return (0);
-		i++;
-	}
-	j = 0;
-	while (j < map->height)
-	{
-		if (map->grid[j][0] != '1' || map->grid[j][map->width - 1] != '1')
-			return (0);
-		j++;
-	}
-	return (1);
-}
 
 void	enqueue(t_node **queue, int x, int y)
 {

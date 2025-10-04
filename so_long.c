@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:07:30 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/02 15:38:57 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/02 16:24:55 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	main(int argc, char **argv)
 		output_error_and_exit(ERROR_INVALID_EXTENSION, NULL, 1);
 	validate_map_file_extension(argv[1]);
 	game = init_game();
-	ft_memset(game, 0, sizeof(t_game));
 	game->map.grid = read_and_validate_map(argv[1], &game->map, game);
 	if (!game->map.grid)
 		output_error_and_exit(ERROR_FILE_ACCESS, game, 1);

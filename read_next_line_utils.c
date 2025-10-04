@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 15:12:19 by yomatsud          #+#    #+#             */
-/*   Updated: 2025/09/30 11:56:40 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/04 19:34:11 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,6 @@ char	get_char(int fd)
 	}
 	byte--;
 	return ((unsigned char)*bufp++);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t len)
-{
-	size_t	i;
-
-	i = 0;
-	if (!dest && !src)
-		return (NULL);
-	while (i < len)
-	{
-		((unsigned char *)dest)[i] = ((const unsigned char *)src)[i];
-		i++;
-	}
-	return (dest);
 }
 
 char	*re_malloc(char *str, size_t i, char c)

@@ -6,7 +6,7 @@
 /*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:15:04 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/02 15:06:23 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/04 19:37:28 by oshie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ void	validate_map_structure(t_map *map, t_game *game)
 		output_error_and_exit(ERROR_MISSING_COLLECTIBLE, game, 1);
 }
 
-void	validate_map_path(t_map *map, t_game *game)
-{
-	if (!has_valid_path(map))
-		output_error_and_exit(ERROR_NO_VALID_PATH, game, 1);
-}
-
 char	**read_and_validate_map(const char *path, t_map *map, t_game *game)
 {
 	char	**grid;
@@ -53,6 +47,6 @@ char	**read_and_validate_map(const char *path, t_map *map, t_game *game)
 	count_map_dimensions(path, map, game);
 	grid = read_map_to_grid(path, map, game);
 	validate_map_structure(map, game);
-	validate_map_path(map, game);
+	has_valid_path(map, game);
 	return (grid);
 }
