@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_check_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:40:12 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/04 12:28:24 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/05 13:40:02 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,10 @@ int	has_valid_path(t_map *map, t_game *game)
 		output_error_and_exit(ERROR_NO_VALID_PATH, game, 1);
 	bfs_explore(map, temp_grid, 1);
 	free_grid_copy(temp_grid, map->height);
-
 	temp_grid = copy_grid(map->grid, map->height);
 	if (!temp_grid)
 		output_error_and_exit(ERROR_NO_VALID_PATH, game, 1);
 	bfs_explore(map, temp_grid, 2);
 	free_grid_copy(temp_grid, map->height);
-
 	return (1);
 }

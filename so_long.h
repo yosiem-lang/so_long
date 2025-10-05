@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 13:32:51 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/04 19:58:08 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/05 13:42:56 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_game
 	void	*img_player;
 	t_map	map;
 	int		moves;
+	int		fd;
 }			t_game;
-
 
 typedef struct s_node
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   output_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oshie <oshie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yomatsud <yomatsud@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 17:33:47 by oshie             #+#    #+#             */
-/*   Updated: 2025/10/02 15:10:57 by oshie            ###   ########.fr       */
+/*   Updated: 2025/10/05 13:40:30 by yomatsud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	cleanup_resources(t_game *game, int check)
 	if (game && game->map.grid)
 		free_map(game->map.grid);
 	if (check != 1)
-		close(check);
+		close(game->fd);
 	if (game)
 		free(game);
 }
